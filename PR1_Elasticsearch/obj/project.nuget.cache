@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "v2IvOlKWFac=",
+  "dgSpecHash": "UC9ai7KlHYo=",
   "success": true,
-  "projectFilePath": "D:\\UrFU\\Магистратура\\github\\Технологии интеграции информационных систем\\PR1_Elasticsearch\\PR1_Elasticsearch.csproj",
+  "projectFilePath": "D:\\UrFU\\Магистратура\\github\\Технологии интеграции информационных систем\\TIIS\\PR1_Elasticsearch\\PR1_Elasticsearch.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Stepan\\.nuget\\packages\\elastic.clients.elasticsearch\\9.4.0\\elastic.clients.elasticsearch.9.4.0.nupkg.sha512",
     "C:\\Users\\Stepan\\.nuget\\packages\\elastic.esql\\0.11.0\\elastic.esql.0.11.0.nupkg.sha512",

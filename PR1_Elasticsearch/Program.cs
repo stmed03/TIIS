@@ -1,4 +1,3 @@
-
 using Elastic.Clients.Elasticsearch;
 using Elastic.Transport;
 using PR1_Elasticsearch.Services;
@@ -7,14 +6,11 @@ namespace PR1_Elasticsearch
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -22,14 +18,11 @@ namespace PR1_Elasticsearch
                 .Authentication(new BasicAuthentication("elastic", "elastic_password"))
                 .DefaultIndex("articles");
 
-            // Клиент регистрируется как Singleton
             builder.Services.AddSingleton(new ElasticsearchClient(settings));
-
             builder.Services.AddScoped<ArticleSearchService>();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -37,9 +30,13 @@ namespace PR1_Elasticsearch
             }
 
             app.UseAuthorization();
-
-
             app.MapControllers();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var service = scope.ServiceProvider.GetRequiredService<ArticleSearchService>();
+                await service.EnsureIndexAsync();
+            }
 
             app.Run();
         }

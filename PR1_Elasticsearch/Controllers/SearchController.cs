@@ -3,9 +3,7 @@ using PR1_Elasticsearch.Models;
 using PR1_Elasticsearch.Services;
 
 namespace PR1_Elasticsearch.Controllers
-
 {
-
     [ApiController]
     [Route("api/search")]
     public class SearchController : ControllerBase
@@ -22,13 +20,13 @@ namespace PR1_Elasticsearch.Controllers
         {
             var documents = new[]
             {
-            new ArticleDocument { Id = 1, Content = "Моя первая статья по ASP.NET Core и Elasticsearch" },
-            new ArticleDocument { Id = 2, Content = "Полнотекстовый поиск в .NET" },
-            new ArticleDocument { Id = 3, Content = "Работа с Elasticsearch 9 - быстрый старт" }
-        };
+                new ArticleDocument { Id = 1, Name = "Первый", Content = "Моя первая статья по ASP.NET Core и Elasticsearch" },
+                new ArticleDocument { Id = 2, Name = "Второй", Content = "Полнотекстовый поиск в .NET" },
+                new ArticleDocument { Id = 3, Name = "Третий", Content = "Работа с Elasticsearch 9 - быстрый старт" }
+            };
 
             await _service.IndexAsync(documents);
-            return Ok();
+            return Ok("Документы проиндексированы");
         }
 
         [HttpGet]

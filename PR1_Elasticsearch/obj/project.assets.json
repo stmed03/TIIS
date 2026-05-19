@@ -822,11 +822,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\UrFU\\Магистратура\\github\\Технологии интеграции информационных систем\\PR1_Elasticsearch\\PR1_Elasticsearch.csproj",
+      "projectUniqueName": "D:\\UrFU\\Магистратура\\github\\Технологии интеграции информационных систем\\TIIS\\PR1_Elasticsearch\\PR1_Elasticsearch.csproj",
       "projectName": "PR1_Elasticsearch",
-      "projectPath": "D:\\UrFU\\Магистратура\\github\\Технологии интеграции информационных систем\\PR1_Elasticsearch\\PR1_Elasticsearch.csproj",
+      "projectPath": "D:\\UrFU\\Магистратура\\github\\Технологии интеграции информационных систем\\TIIS\\PR1_Elasticsearch\\PR1_Elasticsearch.csproj",
       "packagesPath": "C:\\Users\\Stepan\\.nuget\\packages\\",
-      "outputPath": "D:\\UrFU\\Магистратура\\github\\Технологии интеграции информационных систем\\PR1_Elasticsearch\\obj\\",
+      "outputPath": "D:\\UrFU\\Магистратура\\github\\Технологии интеграции информационных систем\\TIIS\\PR1_Elasticsearch\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
