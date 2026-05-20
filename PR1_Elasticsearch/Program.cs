@@ -1,3 +1,4 @@
+using Confluent.Kafka;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Transport;
 using PR1_Elasticsearch.Services;
@@ -19,6 +20,19 @@ namespace PR1_Elasticsearch
                 .DefaultIndex("articles");
 
             builder.Services.AddSingleton(new ElasticsearchClient(settings));
+
+            #region -- Kafka
+
+            builder.Services.AddSingleton(new ProducerConfig
+            {
+                BootstrapServers = "localhost:9094"
+            });
+
+            builder.Services.AddSingleton<KafkaProducerService>();
+
+            #endregion
+
+
             builder.Services.AddScoped<ArticleSearchService>();
 
             var app = builder.Build();

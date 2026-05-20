@@ -10,22 +10,34 @@ namespace PR1_Elasticsearch.Controllers
     {
         private readonly ArticleSearchService _service;
 
-        public SearchController(ArticleSearchService service)
+        private readonly KafkaProducerService _kafkaProducer;
+
+        public SearchController(ArticleSearchService service, KafkaProducerService kafkaProducer)
         {
             _service = service;
+            _kafkaProducer = kafkaProducer;
+
         }
 
         [HttpGet("index")]
         public async Task<IActionResult> Index()
         {
-            var documents = new[]
-            {
-                new ArticleDocument { Id = 1, Name = "Первый", Content = "Моя первая статья по ASP.NET Core и Elasticsearch" },
-                new ArticleDocument { Id = 2, Name = "Второй", Content = "Полнотекстовый поиск в .NET" },
-                new ArticleDocument { Id = 3, Name = "Третий", Content = "Работа с Elasticsearch 9 - быстрый старт" }
-            };
+            await _kafkaProducer.ProduceAsync(
+                topic: "demo-topic",
+                message: "Hello from ASP.NET Core"
+            );
 
-            await _service.IndexAsync(documents);
+            //var documents = new[]
+            //{
+            //    new ArticleDocument { Id = 1, Name = "Первый", Content = "Моя первая статья по ASP.NET Core и Elasticsearch" },
+            //    new ArticleDocument { Id = 2, Name = "Второй", Content = "Полнотекстовый поиск в .NET" },
+            //    new ArticleDocument { Id = 3, Name = "Третий", Content = "Работа с Elasticsearch 9 - быстрый старт" }
+            //};
+
+            //await _service.IndexAsync(documents);
+
+
+
             return Ok("Документы проиндексированы");
         }
 
