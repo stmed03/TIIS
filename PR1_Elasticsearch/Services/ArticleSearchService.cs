@@ -29,8 +29,7 @@ namespace PR1_Elasticsearch.Services
                 )
             );
 
-            if (!create.IsValidResponse)
-                throw new InvalidOperationException("Не удалось создать индекс articles");
+            
         }
 
         public async Task IndexAsync(IEnumerable<ArticleDocument> documents)

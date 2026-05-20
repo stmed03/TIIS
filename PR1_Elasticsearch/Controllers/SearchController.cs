@@ -10,9 +10,9 @@ namespace PR1_Elasticsearch.Controllers
     {
         private readonly ArticleSearchService _service;
 
-        private readonly KafkaProducerService _kafkaProducer;
+        private readonly ArticleKafkaProducer _kafkaProducer;
 
-        public SearchController(ArticleSearchService service, KafkaProducerService kafkaProducer)
+        public SearchController(ArticleSearchService service, ArticleKafkaProducer kafkaProducer)
         {
             _service = service;
             _kafkaProducer = kafkaProducer;
@@ -20,13 +20,11 @@ namespace PR1_Elasticsearch.Controllers
         }
 
         [HttpGet("index")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromBody] ArticleDocument article)
         {
-            await _kafkaProducer.ProduceAsync(
-                topic: "demo-topic",
-                message: "Hello from ASP.NET Core"
-            );
+            await _kafkaProducer.PublishAsync(article);
 
+            //Вариант 1 -- Прямая загрузка by Степашка
             //var documents = new[]
             //{
             //    new ArticleDocument { Id = 1, Name = "Первый", Content = "Моя первая статья по ASP.NET Core и Elasticsearch" },

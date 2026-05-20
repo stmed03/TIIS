@@ -21,7 +21,7 @@ namespace PR1_Elasticsearch
 
             builder.Services.AddSingleton(new ElasticsearchClient(settings));
 
-            #region -- Kafka
+            #region -- Kafka producer
 
             builder.Services.AddSingleton(new ProducerConfig
             {
@@ -29,6 +29,28 @@ namespace PR1_Elasticsearch
             });
 
             builder.Services.AddSingleton<KafkaProducerService>();
+            builder.Services.AddSingleton<ArticleKafkaProducer>();
+
+
+            #endregion
+
+
+            #region -- Kafka consumer
+            builder.Services.AddSingleton<IConsumer<string, string>>(_ =>
+            {
+                var config = new ConsumerConfig
+                {
+                    BootstrapServers = "localhost:9094",
+                    GroupId = "article-indexer",
+                    AutoOffsetReset = AutoOffsetReset.Earliest,
+                    EnableAutoCommit = false
+                };
+
+                return new ConsumerBuilder<string, string>(config)
+                .Build();
+            });
+
+            builder.Services.AddHostedService<KafkaToElasticHostedService>();
 
             #endregion
 
