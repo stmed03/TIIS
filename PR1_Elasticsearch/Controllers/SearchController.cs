@@ -19,7 +19,7 @@ namespace PR1_Elasticsearch.Controllers
 
         }
 
-        [HttpGet("index")]
+        [HttpPost("index")]
         public async Task<IActionResult> Index([FromBody] ArticleDocument article)
         {
             await _kafkaProducer.PublishAsync(article);

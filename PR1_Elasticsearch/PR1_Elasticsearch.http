@@ -1,4 +1,4 @@
-@PR1_Elasticsearch_HostAddress = http://localhost:5001
+@PR1_Elasticsearch_HostAddress = http://localhost:5002
 
 GET {{PR1_Elasticsearch_HostAddress}}/weatherforecast/
 Accept: application/json
