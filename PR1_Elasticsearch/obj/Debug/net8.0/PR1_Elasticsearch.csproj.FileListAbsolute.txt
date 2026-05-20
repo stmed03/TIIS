@@ -68,3 +68,4 @@ D:\UrFU\Магистратура\github\Технологии интеграци�
 D:\UrFU\Магистратура\github\Технологии интеграции информационных систем\TIIS\PR1_Elasticsearch\bin\Debug\net8.0\runtimes\win-x86\native\vcruntime140.dll
 D:\UrFU\Магистратура\github\Технологии интеграции информационных систем\TIIS\PR1_Elasticsearch\bin\Debug\net8.0\runtimes\win-x86\native\zlib1.dll
 D:\UrFU\Магистратура\github\Технологии интеграции информационных систем\TIIS\PR1_Elasticsearch\bin\Debug\net8.0\runtimes\win-x86\native\zstd.dll
+D:\UrFU\Магистратура\github\Технологии интеграции информационных систем\TIIS\PR1_Elasticsearch\bin\Debug\net8.0\RabbitMQ.Client.dll

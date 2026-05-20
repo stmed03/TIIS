@@ -2,6 +2,7 @@ using Confluent.Kafka;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Transport;
 using PR1_Elasticsearch.Services;
+using RabbitMQ.Client;
 
 namespace PR1_Elasticsearch
 {
@@ -51,6 +52,20 @@ namespace PR1_Elasticsearch
             });
 
             builder.Services.AddHostedService<KafkaToElasticHostedService>();
+
+            #endregion
+
+            #region -- RabbitMQ
+
+            builder.Services.AddSingleton(new ConnectionFactory
+            {
+                HostName = "localhost",
+                Port = 5672,
+                UserName = "rabbituser",
+                Password = "rabbitpassword"
+            });
+
+            builder.Services.AddSingleton<RabbitMqProducerService>();
 
             #endregion
 

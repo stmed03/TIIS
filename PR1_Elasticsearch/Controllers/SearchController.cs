@@ -12,17 +12,26 @@ namespace PR1_Elasticsearch.Controllers
 
         private readonly ArticleKafkaProducer _kafkaProducer;
 
-        public SearchController(ArticleSearchService service, ArticleKafkaProducer kafkaProducer)
+        private readonly RabbitMqProducerService _rabbitMqProducer;
+
+        public SearchController(ArticleSearchService service, ArticleKafkaProducer kafkaProducer, RabbitMqProducerService rabbitMqProducer)
         {
             _service = service;
             _kafkaProducer = kafkaProducer;
+            _rabbitMqProducer = rabbitMqProducer;
 
         }
 
         [HttpPost("index")]
         public async Task<IActionResult> Index([FromBody] ArticleDocument article)
         {
-            await _kafkaProducer.PublishAsync(article);
+            await _rabbitMqProducer.SendAsync("Hello from ASP.NET Core");
+
+            return Ok("Message sent to RabbitMQ");
+
+            //Вариант 2 -- Kafka by Степашка
+            //await _kafkaProducer.PublishAsync(article);
+
 
             //Вариант 1 -- Прямая загрузка by Степашка
             //var documents = new[]
@@ -36,7 +45,7 @@ namespace PR1_Elasticsearch.Controllers
 
 
 
-            return Ok("Документы проиндексированы");
+            //return Ok("Все сработало успешно");
         }
 
         [HttpGet]
