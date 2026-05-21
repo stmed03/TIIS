@@ -36,21 +36,22 @@ namespace PR1_Elasticsearch
 
 
             #region -- Kafka consumer
-            builder.Services.AddSingleton<IConsumer<string, string>>(_ =>
-            {
-                var config = new ConsumerConfig
-                {
-                    BootstrapServers = "localhost:9094",
-                    GroupId = "article-indexer",
-                    AutoOffsetReset = AutoOffsetReset.Earliest,
-                    EnableAutoCommit = false
-                };
 
-                return new ConsumerBuilder<string, string>(config)
-                .Build();
-            });
+            //builder.Services.AddSingleton<IConsumer<string, string>>(_ =>
+            //{
+            //    var config = new ConsumerConfig
+            //    {
+            //        BootstrapServers = "localhost:9094",
+            //        GroupId = "article-indexer",
+            //        AutoOffsetReset = AutoOffsetReset.Earliest,
+            //        EnableAutoCommit = false
+            //    };
 
-            builder.Services.AddHostedService<KafkaToElasticHostedService>();
+            //    return new ConsumerBuilder<string, string>(config)
+            //    .Build();
+            //});
+
+            //builder.Services.AddHostedService<KafkaToElasticHostedService>();
 
             #endregion
 
