@@ -1,0 +1,17 @@
+﻿{
+  "name": "elasticsearch-sink-connector",
+  "config": {
+    "connector.class": "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector",
+    "tasks.max": "1",
+    "topics": "mariadb-articles_db-articledocuments",
+    "connection.url": "http://elasticsearch:9200",
+    "type.name": "_doc",
+    "key.ignore": "true",
+    "schema.ignore": "true",
+    "write.method": "insert",
+    "index.auto.create": "true",
+    "connection.password": "elastic_password",
+    "connection.username": "elastic",
+    "consumer.auto.offset.reset": "earliest"
+  }
+}

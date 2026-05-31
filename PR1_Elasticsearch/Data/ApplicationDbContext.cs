@@ -4,13 +4,6 @@ using System.Reflection.Emit;
 
 namespace PR1_Elasticsearch.Data;
 
-public class ArticleDocument
-{
-    public int Id { get; set; }
-    public string Title { get; set; } = string.Empty;
-    public string Content { get; set; } = string.Empty;
-}
-
 public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -18,13 +11,13 @@ public class ApplicationDbContext : DbContext
     {
     }
 
-    public DbSet<ArticleDocument> ArticleDocuments { get; set; }
+    public DbSet<Models.ArticleDocument> ArticleDocuments { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<ArticleDocument>(entity =>
+        modelBuilder.Entity<Models.ArticleDocument>(entity =>
         {
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Title).IsRequired().HasMaxLength(500);

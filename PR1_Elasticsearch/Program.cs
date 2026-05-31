@@ -3,6 +3,7 @@ using Elastic.Transport;
 using Microsoft.EntityFrameworkCore;
 using PR1_Elasticsearch.Data;
 using PR1_Elasticsearch.Services;
+using Pomelo.EntityFrameworkCore.MySql;
 
 namespace PR1_Elasticsearch
 {
@@ -27,16 +28,10 @@ namespace PR1_Elasticsearch
             var connectionString = "Server=localhost;Port=3306;Database=articles_db;User=articles_user;Password=articles_password;";
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseMySql(connectionString, Pomelo.EntityFrameworkCore.MySql.SqlServerVersion.AutoDetect(connectionString)));
-
-            // Kafka Producer УДАЛЁН для ПР4 (CDC вместо producer)
-            // builder.Services.AddSingleton(new ProducerConfig { BootstrapServers = "localhost:9094" });
-            // builder.Services.AddSingleton<KafkaProducerService>();
-            // builder.Services.AddSingleton<ArticleKafkaProducer>();
-
-            // Kafka Consumer УДАЛЁН для ПР4 (Kafka Connect вместо consumer)
-            // builder.Services.AddSingleton<IConsumer<string, string>>(_ => { ... });
-            // builder.Services.AddHostedService<KafkaToElasticHostedService>();
+                options.UseMySql(
+                    connectionString,
+                    ServerVersion.Parse("10.11.18-mariadb")
+                ));
 
             builder.Services.AddScoped<ArticleSearchService>();
 
@@ -57,7 +52,6 @@ namespace PR1_Elasticsearch
                 await service.EnsureIndexAsync();
             }
 
-            // Создаём таблицу в MariaDB при старте
             using (var scope = app.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();

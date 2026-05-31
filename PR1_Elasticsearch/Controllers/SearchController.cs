@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PR1_Elasticsearch.Data;
 using PR1_Elasticsearch.Services;
+using PR1_Elasticsearch.Models;
 
 namespace PR1_Elasticsearch.Controllers;
 

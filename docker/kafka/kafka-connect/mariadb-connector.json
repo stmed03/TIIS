@@ -11,12 +11,16 @@
     "database.server.name": "mariadb-server",
     "database.include.list": "articles_db",
     "table.include.list": "articles_db.ArticleDocuments",
+    "topic.prefix": "mariadb",
     "include.schema.changes": "false",
     "key.converter": "org.apache.kafka.connect.storage.StringConverter",
     "value.converter": "org.apache.kafka.connect.json.JsonConverter",
     "value.converter.schemas.enable": "false",
     "offset.storage.topic": "__connect-offsets",
     "config.storage.topic": "__connect-configs",
-    "status.storage.topic": "__connect-status"
+    "status.storage.topic": "__connect-status",
+    "schema.history.internal": "io.debezium.storage.kafka.history.KafkaSchemaHistory",
+    "schema.history.internal.kafka.bootstrap.servers": "mariadb-kafka-1:9092",
+    "schema.history.internal.kafka.topic": "schema-history"
   }
 }
