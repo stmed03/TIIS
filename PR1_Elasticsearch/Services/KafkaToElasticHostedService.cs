@@ -1,50 +1,50 @@
-﻿using Confluent.Kafka;
-using Elastic.Clients.Elasticsearch;
-using PR1_Elasticsearch.Models;
-using System.Text.Json;
+﻿//using Confluent.Kafka;
+//using Elastic.Clients.Elasticsearch;
+//using PR1_Elasticsearch.Models;
+//using System.Text.Json;
 
-namespace PR1_Elasticsearch.Services;
+//namespace PR1_Elasticsearch.Services;
 
-public class KafkaToElasticHostedService : BackgroundService
-{
-    private readonly IConsumer<string, string> _consumer;
-    private readonly ElasticsearchClient _client;
+//public class KafkaToElasticHostedService : BackgroundService
+//{
+//    private readonly IConsumer<string, string> _consumer;
+//    private readonly ElasticsearchClient _client;
 
-    public KafkaToElasticHostedService(
-        IConsumer<string, string> consumer,
-        ElasticsearchClient client)
-    {
-        _consumer = consumer;
-        _client = client;
-    }
+//    public KafkaToElasticHostedService(
+//        IConsumer<string, string> consumer,
+//        ElasticsearchClient client)
+//    {
+//        _consumer = consumer;
+//        _client = client;
+//    }
 
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-    {
-        _consumer.Subscribe("articles");
+//    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+//    {
+//        _consumer.Subscribe("articles");
 
-        // Даем хосту завершить старт
-        await Task.Yield();
+//        // Даем хосту завершить старт
+//        await Task.Yield();
 
-        while (!stoppingToken.IsCancellationRequested)
-        {
-            var result = _consumer.Consume(stoppingToken);
+//        while (!stoppingToken.IsCancellationRequested)
+//        {
+//            var result = _consumer.Consume(stoppingToken);
 
-            if (result?.Message == null)
-                continue;
+//            if (result?.Message == null)
+//                continue;
 
-            var document = JsonSerializer.Deserialize<ArticleDocument>(result.Message.Value);
+//            var document = JsonSerializer.Deserialize<ArticleDocument>(result.Message.Value);
 
-            if (document == null)
-                continue;
+//            if (document == null)
+//                continue;
 
-            // Upsert по Id
-            await _client.IndexAsync(document, i => i
-                .Id(document.Id)
-                .Index("articles")
-            );
+//            // Upsert по Id
+//            await _client.IndexAsync(document, i => i
+//                .Id(document.Id)
+//                .Index("articles")
+//            );
 
-            // Коммит offset ТОЛЬКО после успешной записи
-            _consumer.Commit(result);
-        }
-    }
-}
+//            // Коммит offset ТОЛЬКО после успешной записи
+//            _consumer.Commit(result);
+//        }
+//    }
+//}

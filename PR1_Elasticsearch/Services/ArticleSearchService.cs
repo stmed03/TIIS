@@ -23,7 +23,7 @@ namespace PR1_Elasticsearch.Services
             var create = await _client.Indices.CreateAsync("articles", c => c
                 .Mappings(m => m
                     .Properties<ArticleDocument>(p => p
-                        .Text(t => t.Name)
+                        .Text(t => t.Title)
                         .Text(t => t.Content)
                     )
                 )
@@ -50,7 +50,7 @@ namespace PR1_Elasticsearch.Services
                 .Query(q => q
                     .Bool(b => b
                         .Should(
-                            sh => sh.Match(m => m.Field(f => f.Name).Query(query)),
+                            sh => sh.Match(m => m.Field(f => f.Title).Query(query)),
                             sh => sh.Match(m => m.Field(f => f.Content).Query(query))
                         )
                     )

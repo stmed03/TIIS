@@ -1,23 +1,28 @@
-﻿using Confluent.Kafka;
+﻿//using Confluent.Kafka;
+//using PR1_Elasticsearch.Models;
 
-namespace PR1_Elasticsearch.Services;
+//namespace PR1_Elasticsearch.Services;
 
-public class KafkaProducerService
-{
-    private readonly IProducer<Null, string> _producer;
+//public class KafkaProducerService
+//{
+//    private readonly IProducer<string, string> _producer;
+//    private const string Topic = "articles";
 
-    public KafkaProducerService(ProducerConfig config)
-    {
-        _producer = new ProducerBuilder<Null, string>(config).Build();
-    }
+//    public KafkaProducerService(ProducerConfig config)
+//    {
+//        _producer = new ProducerBuilder<string, string>(config).Build();
+//    }
 
-    public async Task ProduceAsync(string topic, string message)
-    {
-        var kafkaMessage = new Message<Null, string>
-        {
-            Value = message
-        };
+//    public async Task ProduceAsync(ArticleDocument article)
+//    {
+//        var json = System.Text.Json.JsonSerializer.Serialize(article);
 
-        await _producer.ProduceAsync(topic, kafkaMessage);
-    }
-}
+//        var message = new Message<string, string>
+//        {
+//            Key = article.Id.ToString(),
+//            Value = json
+//        };
+
+//        await _producer.ProduceAsync(Topic, message);
+//    }
+//}
