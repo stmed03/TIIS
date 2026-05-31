@@ -1,0 +1,22 @@
+{
+  "name": "mariadb-source-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.mysql.MySqlConnector",
+    "tasks.max": "1",
+    "database.hostname": "mariadb",
+    "database.port": "3306",
+    "database.user": "articles_user",
+    "database.password": "articles_password",
+    "database.server.id": "184054",
+    "database.server.name": "mariadb-server",
+    "database.include.list": "articles_db",
+    "table.include.list": "articles_db.ArticleDocuments",
+    "include.schema.changes": "false",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false",
+    "offset.storage.topic": "__connect-offsets",
+    "config.storage.topic": "__connect-configs",
+    "status.storage.topic": "__connect-status"
+  }
+}

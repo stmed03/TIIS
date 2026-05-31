@@ -1,6 +1,7 @@
-using Confluent.Kafka;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Transport;
+using Microsoft.EntityFrameworkCore;
+using PR1_Elasticsearch.Data;
 using PR1_Elasticsearch.Services;
 
 namespace PR1_Elasticsearch
@@ -15,42 +16,27 @@ namespace PR1_Elasticsearch
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            // Elasticsearch client
             var settings = new ElasticsearchClientSettings(new Uri("http://localhost:9200"))
                 .Authentication(new BasicAuthentication("elastic", "elastic_password"))
                 .DefaultIndex("articles");
 
             builder.Services.AddSingleton(new ElasticsearchClient(settings));
 
-            #region -- Kafka producer
+            // MariaDB DbContext
+            var connectionString = "Server=localhost;Port=3306;Database=articles_db;User=articles_user;Password=articles_password;";
 
-            builder.Services.AddSingleton(new ProducerConfig
-            {
-                BootstrapServers = "localhost:9094"
-            });
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseMySql(connectionString, Pomelo.EntityFrameworkCore.MySql.SqlServerVersion.AutoDetect(connectionString)));
 
+            // Kafka Producer УДАЛЁН для ПР4 (CDC вместо producer)
+            // builder.Services.AddSingleton(new ProducerConfig { BootstrapServers = "localhost:9094" });
             // builder.Services.AddSingleton<KafkaProducerService>();
-            builder.Services.AddSingleton<ArticleKafkaProducer>();
+            // builder.Services.AddSingleton<ArticleKafkaProducer>();
 
-            #endregion
-
-            #region -- Kafka consumer
-
-            // builder.Services.AddSingleton<IConsumer<string, string>>(_ =>
-            // {
-            //     var config = new ConsumerConfig
-            //     {
-            //         BootstrapServers = "localhost:9094",
-            //         GroupId = "article-indexer",
-            //         AutoOffsetReset = AutoOffsetReset.Earliest,
-            //         EnableAutoCommit = false
-            //     };
-            //
-            //     return new ConsumerBuilder<string, string>(config).Build();
-            // });
-            //
+            // Kafka Consumer УДАЛЁН для ПР4 (Kafka Connect вместо consumer)
+            // builder.Services.AddSingleton<IConsumer<string, string>>(_ => { ... });
             // builder.Services.AddHostedService<KafkaToElasticHostedService>();
-
-            #endregion
 
             builder.Services.AddScoped<ArticleSearchService>();
 
@@ -69,6 +55,13 @@ namespace PR1_Elasticsearch
             {
                 var service = scope.ServiceProvider.GetRequiredService<ArticleSearchService>();
                 await service.EnsureIndexAsync();
+            }
+
+            // Создаём таблицу в MariaDB при старте
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                db.Database.EnsureCreated();
             }
 
             app.Run();
