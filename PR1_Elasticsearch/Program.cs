@@ -27,6 +27,11 @@ namespace PR1_Elasticsearch
             // MariaDB DbContext
             var connectionString = "Server=localhost;Port=3306;Database=articles_db;User=articles_user;Password=articles_password;";
 
+            builder.Services.AddSingleton(new ElasticsearchClient(settings));
+
+            // MariaDB DbContext
+            var connectionString = "Server=localhost;Port=3306;Database=articles_db;User=articles_user;Password=articles_password;";
+
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseMySql(
                     connectionString,

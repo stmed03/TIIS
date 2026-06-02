@@ -1,0 +1,45 @@
+services:
+  mariadb:
+    image: mariadb:10.11
+    container_name: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: articles_db
+      MYSQL_USER: articles_user
+      MYSQL_PASSWORD: articles_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    networks:
+      - nifi-network
+    restart: unless-stopped
+
+  nifi:
+    image: apache/nifi:1.27.0
+    container_name: nifi
+    ports:
+      - "8080:8080"
+    environment:
+      - NIFI_WEB_HTTP_PORT=8080
+      - NIFI_SECURITY_SINGLE_USER=true
+      - NIFI_SECURITY_SINGLE_USER_USERNAME=admin
+      - NIFI_SECURITY_SINGLE_USER_PASSWORD=admin123
+    volumes:
+      - nifi-data:/opt/nifi/nifi-current/data
+      - nifi-confs:/opt/nifi/nifi-current/conf
+      - ./parquet-output:/output
+    networks:
+      - nifi-network
+    depends_on:
+      - mariadb
+    restart: unless-stopped
+
+volumes:
+  mariadb-data:
+  nifi-data:
+  nifi-confs:
+
+networks:
+  nifi-network:
+    driver: bridge
